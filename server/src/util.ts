@@ -25,6 +25,7 @@ export default (callback: (req: Request, res: Response) => Promise<void>) =>
     try {
       await callback(req, res);
     } catch (error: unknown) {
+      console.log(error);
       if (error instanceof CustomError) {
         res.status(error.statusCode).send({ error: error.message });
       } else res.status(500).send({ error: 'Internal Server Error!' });
@@ -45,12 +46,12 @@ export class CustomError extends Error {
   static NotFoundError(message: string) {
     return new CustomError(message, 'NotFoundError', 404);
   }
-  
+
   // validation error w/ status code: 400
   static ValidationError(message: string) {
     return new CustomError(message, 'ValidationError', 400);
   }
-  
+
   // unauthorized error w/ status code: 401
   static UnauthorizedError(message: string) {
     return new CustomError(message, 'UnauthorizedError', 401);

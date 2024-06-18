@@ -1,7 +1,6 @@
 import { getObjValue } from '../../lib/utils';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
-import EmptyView from '../EmptyView';
 import LoadingView from '../LoadingView';
 import { Column, CustomTable } from './Table';
 
@@ -136,7 +135,7 @@ const TableWrapper = ({
   };
 
   return (
-    <div className="">
+    <>
       <div className="flex flex-col flex-wrap lg:flex-row lg:justify-between gap-2 items-center">
         <div className="flex flex-row gap-2 items-center">
           <h1 className="text-2xl font-semibold">{title}</h1>
@@ -163,7 +162,9 @@ const TableWrapper = ({
       {loading ? (
         <LoadingView message={loadingMessage ?? 'Loading data ...'} />
       ) : error ? (
-        <EmptyView message={errorMessage ?? 'Error fetching data'} />
+        <div className="mt-4 text-3xl text-slate-800">
+          <p>No books found in the library database</p>
+        </div>
       ) : (
         <CustomTable
           errorFetching={errorFetching}
@@ -181,7 +182,7 @@ const TableWrapper = ({
           setPage={setPage}
         />
       )}
-    </div>
+    </>
   );
 };
 

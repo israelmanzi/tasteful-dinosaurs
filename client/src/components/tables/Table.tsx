@@ -113,11 +113,7 @@ export function CustomTable({
           ) : !loading ? (
             <Table.Tr>
               <Table.Td colSpan={columns.length + 1}>
-                <EmptyView
-                  message={
-                    errorFetching ? 'Error Fetching Data' : 'No Data To Show'
-                  }
-                />
+                No data available
               </Table.Td>
             </Table.Tr>
           ) : null}

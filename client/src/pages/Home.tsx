@@ -23,7 +23,9 @@ export default function Home() {
           </p>
           {user ? (
             <Link to={'/dashboard'}>
-              <Button className="mt-6">Checkout our book collection</Button>
+              <Button className="mt-6 bg-slate-800 hover:bg-slate-600">
+                Checkout our book collection
+              </Button>
             </Link>
           ) : (
             <div className="mt-6 flex items-center justify-center gap-x-6">

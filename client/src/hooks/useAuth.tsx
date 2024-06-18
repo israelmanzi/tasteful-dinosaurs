@@ -11,7 +11,12 @@ interface AuthContextType {
   user: User | null; // Current authenticated user
   login: (email: string, password: string) => void; // Function to log in with email and password
   loggingIn: boolean; // State indicating if login is in progress
-  register: (name: string, email: string, password: string) => void; // Function to register a new user
+  register: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) => void; // Function to register a new user
   registering: boolean; // State indicating if registration is in progress
   logout: () => void; // Function to log out the current user
   loggingOut: boolean; // State indicating if logout is in progress
@@ -66,7 +71,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       setUser(data.user); // Set authenticated user data
       setCookie('token', data.token, 7); // Set authentication token in cookie for 7 days
-
       notifications.show({
         title: 'Success',
         message: 'Successfully logged in!',
@@ -87,12 +91,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (
+    firstName: string,
+    lastName,
+    email: string,
+    password: string
+  ) => {
     setRegistering(true); // Set registering state to true during registration process
 
     try {
       const { data } = await axios.post('/auth/register', {
-        name,
+        firstName,
+        lastName,
         email,
         password,
       }); // Request to register new user

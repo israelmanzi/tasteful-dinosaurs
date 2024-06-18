@@ -12,18 +12,19 @@ export class UserValidator {
   }
 
   static validate(user: IUser): { isValid: boolean; errors?: string[] } {
+    console.log(user);
     const errors: string[] = [];
 
     if (!this.isEmailValid(user.email)) {
       errors.push('Invalid email format');
     }
 
-    if (!user.firstName.trim() || user.firstName.trim().length < 3) {
-      errors.push('First name must be above 3 characters');
+    if (!user.firstName.trim() || user.firstName.trim().length < 2) {
+      errors.push('First name must be above 2 characters');
     }
 
-    if (!user.lastName.trim() || user.lastName.trim().length < 3) {
-      errors.push('First name must be above 3 characters');
+    if (!user.lastName.trim() || user.lastName.trim().length < 2) {
+      errors.push('First name must be above 2 characters');
     }
 
     if (user.password.length < 6) {
