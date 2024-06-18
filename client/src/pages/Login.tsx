@@ -10,11 +10,13 @@ export default function Login() {
   const { loggingIn, login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+
     const form = e.currentTarget as HTMLFormElement;
     const email = form.email.value;
     const password = form.password.value;
 
+    // Validate email and password presence
     if (!email || !password) {
       notifications.show({
         title: 'Error',
@@ -25,6 +27,7 @@ export default function Login() {
       return;
     }
 
+    // Call login function from useAuth hook
     login(email, password);
   };
 

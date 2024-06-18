@@ -9,14 +9,17 @@ const router: Router = Router();
 router
   .post(
     '/register',
-    [accountAlreadyExists],
-    errorHandler(authController.registerAccount)
+    [accountAlreadyExists], // Middleware to check if account already exists
+    errorHandler(authController.registerAccount) // Handle register account
   )
-  .post('/generate-auth-token', errorHandler(authController.generateAuthToken))
+  .post(
+    '/generate-auth-token',
+    errorHandler(authController.generateAuthToken) // Handle auth token generation
+  )
   .get(
     '/login-info',
-    [isAuthenticated],
-    errorHandler(authController.getAuthenticatedInfo)
+    [isAuthenticated], // Middleware to check if user is authenticated
+    errorHandler(authController.getAuthenticatedInfo) // Handle getting authenticated user info
   );
 
 export default router;

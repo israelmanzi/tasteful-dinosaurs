@@ -5,6 +5,7 @@ import { hash, verify } from 'argon2';
 
 dotenv.config();
 
+// Import env variables
 export const ENV = {
   PORT: parseInt(process.env.PORT!) || 4000,
   DATABASE: process.env.DATABASE_URL,
@@ -12,11 +13,13 @@ export const ENV = {
   EXPIRES_IN: process.env.EXPIRES_IN,
 };
 
+// Cors options [Allow all origins]
 export const corsOptions = {
   origin: '*',
   optionSuccessStatus: 200,
 };
 
+// Error handler receives a callback and handles all errors thrown
 export default (callback: (req: Request, res: Response) => Promise<void>) =>
   async (req: Request, res: Response) => {
     try {
@@ -28,6 +31,7 @@ export default (callback: (req: Request, res: Response) => Promise<void>) =>
     }
   };
 
+// Define custom error class that extends Error
 export class CustomError extends Error {
   statusCode: number;
 
@@ -37,19 +41,23 @@ export class CustomError extends Error {
     this.statusCode = statusCode;
   }
 
+  // not found error w/ status code: 404
   static NotFoundError(message: string) {
     return new CustomError(message, 'NotFoundError', 404);
   }
-
+  
+  // validation error w/ status code: 400
   static ValidationError(message: string) {
     return new CustomError(message, 'ValidationError', 400);
   }
-
+  
+  // unauthorized error w/ status code: 401
   static UnauthorizedError(message: string) {
     return new CustomError(message, 'UnauthorizedError', 401);
   }
 }
 
+// Function to generate/sign jwt token with [id, email, name]
 export const generateToken = async ({
   id,
   email,
@@ -64,6 +72,7 @@ export const generateToken = async ({
   });
 };
 
+// Function to decode jwt token and return payload
 export const decodeToken = async (token: string): Promise<any> => {
   const payload = jwt.decode(token);
 
@@ -71,13 +80,16 @@ export const decodeToken = async (token: string): Promise<any> => {
   return payload;
 };
 
+// Hash password
 export const hashPassword = async (password: string): Promise<string> =>
   hash(password);
 
+// Compare hashed password (hash, unhashed)
 export const comparePasswords = async (
   digest: string,
   password: string
 ): Promise<boolean> => verify(digest, password);
 
+// Generate fullname
 export const mergeName = (firstName: string, lastName: string): string =>
   `${lastName} ${firstName}`;

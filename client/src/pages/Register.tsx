@@ -10,7 +10,8 @@ export default function Register() {
   const { register, registering } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+
     const form = e.currentTarget as HTMLFormElement;
     const firstName = form.firstName.value;
     const lastName = form.lastName.value;
@@ -18,6 +19,7 @@ export default function Register() {
     const password = form.password.value;
     const confirmPassword = form.confirmPassword.value;
 
+    // Validate password match
     if (password !== confirmPassword) {
       notifications.show({
         title: 'Error',
@@ -33,6 +35,7 @@ export default function Register() {
       !password ||
       !confirmPassword
     ) {
+      // Validate all required fields
       notifications.show({
         title: 'Error',
         message: 'All fields are required!',
@@ -42,6 +45,7 @@ export default function Register() {
       return;
     }
 
+    // Call register function from useAuth hook
     register(firstName, lastName, email, password);
   };
 

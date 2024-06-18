@@ -10,16 +10,17 @@ import {
 
 export default class AuthService {
   private prismaClient: PrismaClient;
+
   constructor() {
-    this.prismaClient = new PrismaClient();
+    this.prismaClient = new PrismaClient(); // Initialize PrismaClient
   }
 
   public async registerAccount(body: IUser): Promise<any> {
-    const { isValid, errors } = UserValidator.validate(body);
+    const { isValid, errors } = UserValidator.validate(body); // Validate user data
 
-    if (errors && !isValid) throw CustomError.ValidationError(errors[0]);
+    if (errors && !isValid) throw CustomError.ValidationError(errors[0]); // Throw validation error
 
-    const user = await this.prismaClient.user.create({
+    const user = await this.prismaClient.user.create({ // create user
       data: { ...body, password: await hashPassword(body.password) },
       select: {
         id: true,
@@ -30,9 +31,9 @@ export default class AuthService {
       },
     });
 
-    if (!user) throw CustomError.ValidationError('Unable to create user!');
+    if (!user) throw CustomError.ValidationError('Unable to create user!'); // Throw error if user not created
 
-    return user;
+    return user; // Return created user
   }
 
   public async generateAuthToken({
@@ -42,14 +43,12 @@ export default class AuthService {
     email: string;
     password: string;
   }): Promise<string> {
-    const user = await this.prismaClient.user.findFirst({
-      where: {
-        email: email,
-      },
+    const user = await this.prismaClient.user.findFirst({ // find first user with the provided email
+      where: { email: email },
     });
 
     if (!user || !(await comparePasswords(user.password, password)))
-      throw CustomError.UnauthorizedError('Invalid email or password!');
+      throw CustomError.UnauthorizedError('Invalid email or password!'); // Throw error if credentials invalid
 
     const token = await generateToken({
       id: user.id,
@@ -57,14 +56,12 @@ export default class AuthService {
       name: mergeName(user.firstName, user.lastName),
     });
 
-    return token;
+    return token; // Return generated token
   }
 
   public async getAuthenticatedInfo(payload: any): Promise<any> {
     const user = await this.prismaClient.user.findFirst({
-      where: {
-        email: payload.email,
-      },
+      where: { email: payload.email },
       select: {
         id: true,
         email: true,
@@ -73,8 +70,8 @@ export default class AuthService {
       },
     });
 
-    if (!user) throw CustomError.UnauthorizedError('Unauthorized!');
+    if (!user) throw CustomError.UnauthorizedError('Unauthorized!'); // Throw error if user not found
 
-    return user;
+    return user; // Return user info
   }
 }

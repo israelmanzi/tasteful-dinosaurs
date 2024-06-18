@@ -4,14 +4,15 @@ import { CustomError } from '../util';
 
 export default class BookService {
   private prismaClient: PrismaClient;
+
   constructor() {
-    this.prismaClient = new PrismaClient();
+    this.prismaClient = new PrismaClient(); // Initialize prisma client for data access/manipulation
   }
 
   public async registerBook(body: IBook): Promise<IBook> {
-    const { isValid, errors } = BookValidator.validate(body);
+    const { isValid, errors } = BookValidator.validate(body); // Validate book data
 
-    if (errors && !isValid) throw CustomError.ValidationError(errors[0]);
+    if (errors && !isValid) throw CustomError.ValidationError(errors[0]); // Throw validation error
 
     const book = await this.prismaClient.book.create({
       data: {
@@ -23,18 +24,18 @@ export default class BookService {
       },
     });
 
-    if (!book) throw CustomError.ValidationError('Unable to register book!');
+    if (!book) throw CustomError.ValidationError('Unable to register book!'); // Throw error if book not created
 
-    return book;
+    return book; // Return created book
   }
 
   public async getAllBooks(): Promise<IBook[]> {
-    const books = await this.prismaClient.book.findMany({});
+    const books = await this.prismaClient.book.findMany({}); // Fetch all books
 
     if (!books || books.length <= 0)
-      throw CustomError.NotFoundError('No books found in the database!');
+      throw CustomError.NotFoundError('No books found in the database!'); // Throw error if no books found
 
-    return books;
+    return books; // Return all books
   }
 
   public async getBookById(bookId: string): Promise<IBook> {
@@ -43,8 +44,8 @@ export default class BookService {
     });
 
     if (!book)
-      throw CustomError.NotFoundError(`Book with id #${bookId} not found!`);
+      throw CustomError.NotFoundError(`Book with id #${bookId} not found!`); // Throw error if book not found
 
-    return book;
+    return book; // Return found book
   }
 }

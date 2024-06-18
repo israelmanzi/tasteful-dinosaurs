@@ -12,20 +12,20 @@ routes
     '/healthcheck',
     errorHandler(async (req: Request, res: Response) => {
       const healthcheck = {
-        uptime: process.uptime(),
-        responseTime: process.hrtime(),
-        message: 'OK',
-        timestamp: Date.now(),
+        uptime: process.uptime(), // Application uptime
+        responseTime: process.hrtime(), // Response time
+        message: 'OK', // Healthcheck message
+        timestamp: Date.now(), // Current timestamp
       };
       try {
-        res.status(200).send({ healthcheck });
+        res.status(200).send({ healthcheck }); // Send healthcheck response
       } catch (error) {
-        res.status(503).send(error);
+        res.status(503).send(error); // Send error response
       }
     })
   )
-  .use('/auth', authRoutes)
-  .use('/books', bookRoutes)
-  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+  .use('/auth', authRoutes) // Auth routes
+  .use('/books', bookRoutes) // Book routes
+  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc)); // Swagger API docs
 
 export default routes;

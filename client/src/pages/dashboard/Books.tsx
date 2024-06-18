@@ -1,8 +1,6 @@
 import { Helmet } from 'react-helmet';
-import { useRecoilState } from 'recoil';
 import { Column } from '../../components/tables/Table';
 import TableWrapper from '../../components/tables/TableWrapper';
-import { showAddBookState } from '../../store';
 import { Book } from '../../types';
 import useBooks from '../../hooks/useBooks';
 
@@ -45,7 +43,6 @@ const columns: Column<Book>[] = [
 ];
 
 export default function Books() {
-  const [, setShowAddBook] = useRecoilState(showAddBookState);
   const { isLoading, books, error } = useBooks();
   return (
     <>

@@ -4,12 +4,12 @@ import useAuth from '../../hooks/useAuth';
 import { IoPersonOutline } from 'react-icons/io5';
 
 export default function DashboardLayout() {
-  const { user, logout } = useAuth();
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { user, logout } = useAuth(); // Fetch user data and logout function from authentication context
+  const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage visibility of dropdown menu
+  const dropdownRef = useRef<HTMLDivElement>(null); // Reference to dropdown menu DOM element
 
   const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
+    setDropdownVisible(!dropdownVisible); // Toggle dropdown menu visibility
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -17,14 +17,14 @@ export default function DashboardLayout() {
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target as Node)
     ) {
-      setDropdownVisible(false);
+      setDropdownVisible(false); // Close dropdown if clicked outside of it
     }
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside); // Add event listener to handle clicks outside dropdown
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside); // Clean up event listener on component unmount
     };
   }, []);
 

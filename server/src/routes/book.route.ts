@@ -6,8 +6,9 @@ import bookController from '../controllers/book.controller';
 const router: Router = Router();
 
 router
-  .post('/register', isAuthenticated, errorHandler(bookController.registerBook))
-  .get('/:bookId', isAuthenticated, errorHandler(bookController.getBookById))
-  .get('/', isAuthenticated, errorHandler(bookController.getAllBooks));
+  .use(isAuthenticated)
+  .post('/register', errorHandler(bookController.registerBook))
+  .get('/:bookId', errorHandler(bookController.getBookById))
+  .get('/', errorHandler(bookController.getAllBooks));
 
 export default router;

@@ -18,15 +18,15 @@ function App() {
       <MantineProvider>
         <Notifications />
         <Router>
-          <AuthProvider>
+          <AuthProvider> {/* Authentication provider */}
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<DashboardLayout />}>
-                <Route path="" element={<Books />} />
+              <Route path="/" element={<Home />} /> {/* Home page */}
+              <Route path="/login" element={<Login />} /> {/* Login page */}
+              <Route path="/register" element={<Register />} /> {/* Register page */}
+              <Route path="/dashboard" element={<DashboardLayout />}> {/* Dashboard layout */}
+                <Route path="" element={<Books />} /> {/* Books page within dashboard */}
               </Route>
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} /> {/* 404 page */}
             </Routes>
           </AuthProvider>
         </Router>
