@@ -12,7 +12,6 @@ export class UserValidator {
   }
 
   static validate(user: IUser): { isValid: boolean; errors?: string[] } {
-    console.log(user);
     const errors: string[] = [];
 
     if (!this.isEmailValid(user.email)) {
@@ -27,7 +26,7 @@ export class UserValidator {
       errors.push('First name must be above 2 characters');
     }
 
-    if (user.password.length < 6) {
+    if (user.password.length <= 6) {
       errors.push('Password must be at least 6 characters long');
     }
 
