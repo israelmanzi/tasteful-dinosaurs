@@ -30,11 +30,15 @@ export default function Home() {
           ) : (
             <div className="mt-6 flex items-center justify-center gap-x-6">
               <Link to={'/login'}>
-                <Button className="min-w-36">Login</Button>
+                <Button className="min-w-36 bg-slate-800 hover:bg-slate-600">
+                  Login
+                </Button>
               </Link>
               {'or'}
               <Link to={'/register'}>
-                <Button>Create an account</Button>
+                <Button className="bg-slate-800 hover:bg-slate-600">
+                  Create an account
+                </Button>
               </Link>
             </div>
           )}
